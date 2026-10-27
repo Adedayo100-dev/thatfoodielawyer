@@ -521,7 +521,7 @@ page("experiences.html", "Experiences",
 import json, html as _html
 POSTS = json.loads((Path(__file__).parent / "posts.json").read_text(encoding="utf-8"))
 arts = "".join(
-    f'<a class="article has-img" href="post/{p["slug"]}"><img src="{p["img"]}/v1/fill/w_900,h_560,al_c,q_80/cover.jpg" alt="" loading="lazy"><span class="cat">{p["cat"]}</span><h3>{_html.escape(p["title"])}</h3><span class="go">Read article {A}</span></a>'
+    f'<a class="article has-img" href="post/{p["slug"]}"><img src="{p["img"]}" alt="" loading="lazy"><span class="cat">{p["cat"]}</span><h3>{_html.escape(p["title"])}</h3><span class="go">Read article {A}</span></a>'
     for p in POSTS
 )
 ideas = f"""
@@ -593,7 +593,7 @@ for i, p in enumerate(POSTS):
     </div>
   </section>
   <div class="wrap narrow">
-    <img class="post-cover" src="{p["img"]}/v1/fill/w_1400,h_800,al_c,q_80/cover.jpg" alt="">
+    <img class="post-cover" src="{p["img"]}" alt="">
     <div class="post-body">{"".join(out)}</div>
     <div class="post-next">
       <span class="mini">Read next</span>
@@ -607,7 +607,7 @@ for i, p in enumerate(POSTS):
 """
     desc = p["blocks"][0][1][:155].rsplit(" ", 1)[0] + "..."
     page(f"post/{p['slug']}.html", p["title"], _html.escape(desc), body, active="ideas.html",
-         og_image=f'{p["img"]}/v1/fill/w_1200,h_630,al_c,q_80/cover.jpg')
+         og_image=f'{SITE}/{p["img"]}')
 
 # ================================================================ CONTACT (Netlify Forms)
 contact = f"""
