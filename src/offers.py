@@ -10,7 +10,7 @@ CORE = [
         "page": "book.html",
         "name": "Food &amp; Hospitality Strategy Call",
         "price": "$249", "unit": "CAD", "meta": "45 minutes · Google Meet", "bookable": True,
-        "calendly": "https://calendly.com/REPLACE_WITH_HER_LINK/strategy-call",
+        "calendly": "https://calendly.com/thatfoodielawyer/30min",
         "pay_note": "Pay securely by card through Stripe to confirm your booking.",
         "snapshot": [
             "A focused session designed to help food and hospitality founders make smarter business decisions by identifying hidden risks and uncovering opportunities for growth before they become costly mistakes.",

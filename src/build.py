@@ -50,8 +50,8 @@ def header(active):
 <header class="site-header">
   <div class="wrap hd">
     <a class="brand" href="index.html" aria-label="That Foodie Lawyer home">
-      <img class="dark" src="assets/img/logo-mark-ink.png" alt="That Foodie Lawyer" width="82" height="36">
-      <img class="light" src="assets/img/logo-mark-cream.png" alt="That Foodie Lawyer" width="82" height="36">
+      <img class="dark" src="assets/img/logo-tfl.png" alt="That Foodie Lawyer" width="149" height="48">
+      <img class="light" src="assets/img/logo-tfl-cream.png" alt="That Foodie Lawyer" width="149" height="48">
     </a>
     <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
@@ -87,13 +87,14 @@ def footer():
 <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>"""
 
 
-def page(filename, title, desc, body, active=None, hdr="soft"):
+def page(filename, title, desc, body, active=None, hdr="soft", og_image=None):
     full_title = "That Foodie Lawyer" if filename == "index.html" else f"{title} | That Foodie Lawyer"
     url = SITE + ("/" if filename == "index.html" else "/" + filename.replace(".html", ""))
     html = f"""<!doctype html>
 <html lang="en-CA">
 <head>
 <meta charset="utf-8">
+{'<base href="/">' if "/" in filename else ""}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{full_title}</title>
 <meta name="description" content="{desc}">
@@ -102,7 +103,7 @@ def page(filename, title, desc, body, active=None, hdr="soft"):
 <meta property="og:title" content="{full_title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{url}">
-<meta property="og:image" content="{SITE}/assets/img/og.jpg">
+<meta property="og:image" content="{og_image or SITE + '/assets/img/og.jpg'}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#fbe9a6">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -121,6 +122,7 @@ def page(filename, title, desc, body, active=None, hdr="soft"):
 </body>
 </html>
 """
+    (OUT / filename).parent.mkdir(parents=True, exist_ok=True)
     (OUT / filename).write_text(html, encoding="utf-8")
 
 
@@ -512,18 +514,14 @@ page("experiences.html", "Experiences",
      experiences)
 
 # ================================================================ IDEAS (interim copy)
-ARTICLES = [
-    ("Culture", "Debunking Common African Food Myths"),
-    ("Culture", "Celebrating World Jollof Rice Day with a Twist"),
-    ("Food Law", "Beyond Poutine: 25 Canadian Food Laws That Will Surprise You"),
-    ("Industry", "Connecting African Cuisine to the World: Lessons from Thai and Beyond"),
-]
+import json, html as _html
+POSTS = json.loads((Path(__file__).parent / "posts.json").read_text(encoding="utf-8"))
 arts = "".join(
-    f'<a class="article" href="#"><span class="cat">{c}</span><h3>{t}</h3><span class="go">Read article {A}</span></a>'
-    for c, t in ARTICLES
+    f'<a class="article has-img" href="post/{p["slug"]}"><img src="{p["img"]}/v1/fill/w_900,h_560,al_c,q_80/cover.jpg" alt="" loading="lazy"><span class="cat">{p["cat"]}</span><h3>{_html.escape(p["title"])}</h3><span class="go">Read article {A}</span></a>'
+    for p in POSTS
 )
 ideas = f"""
-<!-- INTERIM COPY. Article links are placeholders until posts are migrated from Wix. -->
+<!-- INTERIM COPY. Articles migrated from Wix (src/posts.json). -->
 <section class="page-hero soft">
   <div class="ring" aria-hidden="true" style="border-color:rgba(225,90,63,.35)"></div>
   <div class="wrap" style="position:relative">
@@ -562,6 +560,50 @@ ideas = f"""
 page("ideas.html", "Ideas",
      "Commentary, stories and practical perspectives from That Foodie Lawyer on consumer expectations, food law, hospitality, business and culture.",
      ideas)
+
+# ================================================================ BLOG POSTS (same URLs as on Wix: /post/<slug>)
+for i, p in enumerate(POSTS):
+    out, in_list = [], False
+    for kind, text in p["blocks"]:
+        t = _html.escape(text)
+        if kind == "li":
+            if not in_list:
+                out.append('<ol class="post-list">'); in_list = True
+            head, _, rest = t.partition("?: ") if "?: " in t else t.partition(": ")
+            head = head + "?" if "?: " in t else head
+            out.append(f"<li><strong>{head}:</strong> {rest}</li>" if rest else f"<li>{t}</li>")
+            continue
+        if in_list:
+            out.append("</ol>"); in_list = False
+        out.append(f"<h2>{t}</h2>" if kind == "h" else f"<p>{t}</p>")
+    if in_list:
+        out.append("</ol>")
+    nxt = POSTS[(i + 1) % len(POSTS)]
+    body = f"""
+<article>
+  <section class="page-hero soft post-hero">
+    <div class="wrap narrow">
+      <a class="text-link" href="ideas.html#latest">{A.replace("→","←")} All ideas</a>
+      <p class="post-meta"><span class="tag" style="margin:0">{p["cat"]}</span> <span>{p["date"]} · That Foodie Lawyer</span></p>
+      <h1 class="post-title">{_html.escape(p["title"])}</h1>
+    </div>
+  </section>
+  <div class="wrap narrow">
+    <img class="post-cover" src="{p["img"]}/v1/fill/w_1400,h_800,al_c,q_80/cover.jpg" alt="">
+    <div class="post-body">{"".join(out)}</div>
+    <div class="post-next">
+      <span class="mini">Read next</span>
+      <a href="post/{nxt["slug"]}"><h3>{_html.escape(nxt["title"])}</h3></a>
+    </div>
+  </div>
+</article>
+{cta("Start a Conversation", "Let us make food", "matter more.",
+     "Whether you are building a stronger business, creating a meaningful experience or looking for a fresh industry perspective, I would love to hear what you are working on.",
+     btn("contact.html", "Start the Conversation", "sun") + '<a class="btn out" href="book.html">Book a Strategy Call</a>')}
+"""
+    desc = p["blocks"][0][1][:155].rsplit(" ", 1)[0] + "..."
+    page(f"post/{p['slug']}.html", p["title"], _html.escape(desc), body, active="ideas.html",
+         og_image=f'{p["img"]}/v1/fill/w_1200,h_630,al_c,q_80/cover.jpg')
 
 # ================================================================ CONTACT (Netlify Forms)
 contact = f"""
