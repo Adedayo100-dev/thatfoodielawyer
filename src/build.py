@@ -182,7 +182,7 @@ home = f"""
 <section class="section bg-soft">
   <div class="wrap split">
     <div class="stack fade">
-      <img src="assets/img/azeezat-lens.webp" alt="Azeezat in a denim vest and yellow tie, arms crossed" loading="lazy">
+      <img src="assets/img/azeezat-green.webp" alt="Azeezat in a green shirt and head wrap, sipping a drink" loading="lazy">
       <img src="assets/img/food-table.webp" alt="A TFL event table with pastries and drinks under copper lamps" loading="lazy">
     </div>
     <div class="fade">
@@ -204,6 +204,26 @@ home = f"""
     </div>
   </div>
 </section>
+
+<section class="section strip-sec">
+  <div class="wrap">
+    <div class="strip fade">
+      <img src="assets/img/food-table.webp" alt="A TFL event table under copper food lamps" loading="lazy">
+      <img src="assets/img/azeezat-bite.webp" alt="Azeezat at a restaurant table holding up a falafel" loading="lazy">
+      <img src="assets/img/food-pastries.webp" alt="Platters of pastries and fresh fruit at a TFL event" loading="lazy">
+    </div>
+    <div class="strip-cap"><span class="it">Experiences by TFL</span><a class="text-link" href="experiences.html">Discover Experiences {A}</a></div>
+  </div>
+</section>
+
+<section class="section testi">
+  <div class="wrap fade">
+    <span class="tag">Client Words</span>
+    <blockquote>Awesome working with TFL!!! She really cares about your business and its growth. She is professional, factual, and process-driven. You can't miss it with TFL.</blockquote>
+    <p class="who"><a href="https://www.instagram.com/realaladun/" target="_blank" rel="noopener">Aladun Inc.</a></p>
+  </div>
+</section>
+
 {cta("Start a Conversation", "Let us make food", "matter more.",
      "Whether you are building a stronger business, creating a meaningful experience or looking for a fresh industry perspective, I would love to hear what you are working on.",
      btn("contact.html", "Start the Conversation", "sun") + '<a class="btn out" href="book.html">Book a Strategy Call</a>')}
@@ -313,7 +333,7 @@ def offer_card(i, o):
         <div class="ocard-top">
           <span class="n">Offer {i:02d}</span>
           <h3>{o['name']}</h3>
-          <div class="oprice">{o['price']} <small>{o['unit']}</small></div>
+          {f'<div class="oprice">{o["price"]} <small>{o["unit"]}</small></div>' if o.get("bookable") else '<div class="orec">Recommended after your Strategy Call</div>'}
           <div class="ometa">{o['meta']}</div>
         </div>
         <p class="osnap">{o['snapshot'][0]}</p>
@@ -327,11 +347,12 @@ def offer_card(i, o):
             <h4>Outcomes</h4>{ul(o['outcomes'])}
           </div>
         </details>
-        <div class="acts" style="margin-top:auto;padding-top:22px">{btn(o['page'], o['cta'])}</div>
+        <div class="acts" style="margin-top:auto;padding-top:22px">{btn(o['page'], o['cta']) if o.get("bookable") else btn("book.html", "Start with a Strategy Call", "out")}</div>
       </article>"""
 
 
 core_html = "".join(offer_card(i, o) for i, o in enumerate(CORE, 1))
+POLICY = "Payments are non-refundable. You can reschedule up to 48 hours before your call."
 partner = CORE[3]
 
 standalone_html = ""
@@ -389,13 +410,21 @@ consulting = f"""
   <div class="wrap">
     <div class="sec-head fade">
       <div><span class="tag">TFL Global Consulting Offer Suite</span><h2>Food &amp; Hospitality <span class="it">Growth Advisory.</span></h2></div>
-      <p>Not sure where to start? Begin with a Strategy Call. Every engagement is delivered virtually unless otherwise agreed.</p>
+      <p>Every engagement begins with a Strategy Call. Based on what we discover about your business and your goals, I will recommend the offer that best suits your needs.</p>
     </div>
     <div class="offers fade">{core_html}
     </div>
   </div>
 </section>
 
+
+<section class="section testi">
+  <div class="wrap fade">
+    <span class="tag">Client Words</span>
+    <blockquote>Awesome working with TFL!!! She really cares about your business and its growth. She is professional, factual, and process-driven. You can't miss it with TFL.</blockquote>
+    <p class="who"><a href="https://www.instagram.com/realaladun/" target="_blank" rel="noopener">Aladun Inc.</a></p>
+  </div>
+</section>
 <section class="section">
   <div class="wrap">
     <div class="sec-head fade">
@@ -407,7 +436,7 @@ consulting = f"""
       <div class="jarrow" aria-hidden="true">{A}</div>
       <div class="jcol after"><h3>After</h3>{ul(partner['after'])}</div>
     </div>
-    <div class="acts center" style="justify-content:center">{btn(partner['page'], partner['cta'])}</div>
+    <div class="acts center" style="justify-content:center">{btn("book.html", "Start with a Strategy Call")}</div>
   </div>
 </section>
 
@@ -554,7 +583,7 @@ contact = f"""
       </div>
       <div style="margin-top:30px">
         <h3>Ready for advisory support?</h3>
-        <p style="color:var(--soft)">Skip the back and forth. Book and pay for a 45-minute Food &amp; Hospitality Strategy Call ($199 CAD) online.</p>
+        <p style="color:var(--soft)">Skip the back and forth. Book and pay for a 45-minute Food &amp; Hospitality Strategy Call ($249 CAD) online.</p>
         {btn("book.html", "Book a Strategy Call")}
       </div>
     </aside>
@@ -582,8 +611,8 @@ page("contact.html", "Contact",
      contact)
 
 # ================================================================ BOOKING PAGES (one per core offer)
-for o in CORE:
-    others = "".join(f'<li><a href="{x["page"]}">{x["name"]}</a> · {x["price"]} {x["unit"]}</li>' for x in CORE if x is not o)
+for o in [x for x in CORE if x.get("bookable")]:
+    others = "".join(f'<li><a href="consulting.html#{x["id"]}">{x["name"]}</a></li>' for x in CORE if x is not o)
     book = f"""
 <section class="page-hero forest on-dark">
   <div class="ring" aria-hidden="true"></div>
@@ -603,13 +632,15 @@ for o in CORE:
         <li><span class="n">1</span><span><strong>Choose a time</strong> that works for you in the calendar.</span></li>
         <li><span class="n">2</span><span><strong>Share a little context</strong> about your business and what you want to focus on.</span></li>
         <li><span class="n">3</span><span><strong>{o['pay_note']}</strong></span></li>
-        <li><span class="n">4</span><span><strong>Get your confirmation</strong> and video call link by email straight away.</span></li>
+        <li><span class="n">4</span><span><strong>Get your confirmation</strong> and Google Meet link by email straight away.</span></li>
       </ol>
       <div class="kv" style="grid-template-columns:1fr">
         <div><h4>{o['deliverables_label']}</h4>{ul(o['deliverables'])}</div>
         <div><h4>Outcomes</h4>{ul(o['outcomes'])}</div>
       </div>
-      <p class="mini" style="margin-top:28px">Other ways to work with me</p>
+      <div class="policy"><strong>Booking policy.</strong> {POLICY}</div>
+      <p class="mini" style="margin-top:28px">Where the call can lead</p>
+      <p style="color:var(--soft);font-size:.95rem">After the call, I may recommend one of these, based on your goals and what we uncover together:</p>
       <ul class="checks">{others}</ul>
       <p style="color:var(--soft);font-size:.92rem;margin-top:20px">Questions before booking? Email <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>
     </div>
