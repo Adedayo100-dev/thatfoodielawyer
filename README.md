@@ -4,11 +4,20 @@ Static site (HTML/CSS/JS) built from the "TFL Website Copy, Designer-Ready Revis
 Pages: Home, About, Global Consulting, Experiences, Ideas, Contact, Book a Strategy Call, 404.
 
 ## Structure
-- `src/build.py`: all page content lives here. Edit it, then run `python src/build.py` to regenerate `site/*.html`.
-- `site/`: the deployable site. On Netlify set **Base directory** to `site` (no build command).
-- `site/netlify.toml`: redirects from old Wix paths and caching.
-- Contact form uses **Netlify Forms** (free tier). Submissions appear in Netlify > Forms; turn on email notifications to foodie@thatfoodielawyer.com.
+- `src/build.py`: page content. `src/offers.py`: consulting offers. `src/blog.py`: turns blog posts into pages.
+- `content/posts/*.md`: blog posts (one file per post). Azeezat edits these through the blog editor at `/admin`.
+- `site/`: the published website. `site/admin/`: the Decap CMS blog editor and its settings (`config.yml`).
+- `netlify.toml` (repo root): Netlify runs `pip install -r requirements.txt && python3 src/build.py`, then publishes `site/`.
+  In Netlify, **Base directory must be empty**, publish directory `site`.
+- To build on your PC: `pip install -r requirements.txt`, then `python src/build.py`.
+- Contact form uses **Netlify Forms**; notifications go to foodie@thatfoodielawyer.com.
 - Original photos stay in `photos/` (git-ignored); web versions are in `site/assets/img/`.
+
+## Blog editor (Decap CMS)
+- One-time setup: GitHub OAuth app (callback `https://api.netlify.com/auth/done`), installed in Netlify under Project configuration > Security > OAuth > GitHub.
+- Azeezat needs a free GitHub account added as a collaborator (Write access) on the repo.
+- She logs in at `/admin`, writes a post, clicks Publish. Netlify rebuilds and the post is live in about a minute.
+- Cover photos of any size are resized to web versions automatically during the build.
 
 ## Before launch
 1. **Calendly + Stripe**: upgrade her Calendly from Basic to Standard (needed to take payments), connect Stripe (live mode, confirm her bank is linked). Create ONE paid event: "Food & Hospitality Strategy Call", 45 min, $249 CAD (she is not HST-registered, so no tax), location Google Meet.
@@ -21,7 +30,7 @@ Pages: Home, About, Global Consulting, Experiences, Ideas, Contact, Book a Strat
 4. Wix: Premium Basic plan, billed monthly, next charge Nov 16, 2026. Cancel only after the new site and email are confirmed working.
 
 ## Still needed from Azeezat
-- Blog posts to migrate from Wix (Ideas article cards link to `#` for now).
+- Decide whether the 5 Jollof Concert event photos go into that post.
 - Her own Experiences and Ideas copy (current copy is interim, approved for now).
 - Google Business Profile (not verified yet): link the site once it is.
 - A That Foodie Lawyer logo, if separate from the TFL Global Consulting logo.

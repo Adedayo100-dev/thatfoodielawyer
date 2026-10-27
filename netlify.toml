@@ -1,6 +1,8 @@
-# Netlify config: publish this folder as-is (no build step).
+# Netlify config. Leave "Base directory" EMPTY in Netlify's settings (this file sits at the repo root).
+# Netlify installs requirements.txt, runs the build (which turns content/posts into blog pages), then publishes /site.
 [build]
-  publish = "."
+  command = "pip install -r requirements.txt && python3 src/build.py"
+  publish = "site"
 
 [[redirects]]
   from = "/blank-2"

@@ -1,0 +1,70 @@
+# Decap CMS settings for That Foodie Lawyer's blog.
+# Login: GitHub (via Netlify's GitHub OAuth provider). Only people with write access to the repo can log in.
+backend:
+  name: github
+  repo: Adedayo100-dev/thefoodielawyer
+  branch: main
+  commit_messages:
+    create: "New blog post: {{slug}}"
+    update: "Update blog post: {{slug}}"
+    delete: "Delete blog post: {{slug}}"
+    uploadMedia: "Upload image: {{path}}"
+    deleteMedia: "Delete image: {{path}}"
+
+site_url: https://www.thatfoodielawyer.com
+display_url: https://www.thatfoodielawyer.com
+logo_url: /assets/img/logo-tfl.png
+locale: en
+
+# Uploaded photos are saved here (and resized for the web automatically when the site builds)
+media_folder: "site/assets/img/blog"
+public_folder: "/assets/img/blog"
+
+collections:
+  - name: posts
+    label: Blog posts
+    label_singular: Blog post
+    description: Articles shown on the Ideas page. Each post gets its own page at thatfoodielawyer.com/post/...
+    folder: content/posts
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    preview_path: "post/{{slug}}"
+    sortable_fields: ["date", "title", "category"]
+    summary: "{{title}}  ·  {{category}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Publish date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "MMMM D, YYYY"
+        time_format: false
+        picker_utc: true
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options: ["Culture", "Food Law", "Industry", "Business", "Hospitality", "Experiences"]
+        default: "Industry"
+      - label: "Cover photo"
+        name: "cover"
+        widget: "image"
+        required: false
+        hint: "Shown on the Ideas page and at the top of the post. Any photo size is fine."
+      - label: "Short summary (optional)"
+        name: "summary"
+        widget: "text"
+        required: false
+        hint: "One or two sentences used by Google and in link previews. Leave empty to use the opening of the post."
+      - label: "Hide this post"
+        name: "draft"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "Turn on to keep the post off the website while you work on it."
+      - label: "Post"
+        name: "body"
+        widget: "markdown"
+        buttons: ["bold", "italic", "link", "heading-two", "heading-three", "quote", "bulleted-list", "numbered-list"]
+        editor_components: ["image"]
+        modes: ["rich_text", "raw"]

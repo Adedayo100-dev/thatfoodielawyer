@@ -518,14 +518,22 @@ page("experiences.html", "Experiences",
      experiences)
 
 # ================================================================ IDEAS (interim copy)
-import json, html as _html
-POSTS = json.loads((Path(__file__).parent / "posts.json").read_text(encoding="utf-8"))
+import html as _html
+import shutil
+from blog import load_posts
+POSTS = load_posts()
+
+
+def _img(p, cls=""):
+    return f'<img{cls} src="{p["img"]}" alt="" loading="lazy">' if p["img"] else ""
+
+
 arts = "".join(
-    f'<a class="article has-img" href="post/{p["slug"]}"><img src="{p["img"]}" alt="" loading="lazy"><span class="cat">{p["cat"]}</span><h3>{_html.escape(p["title"])}</h3><span class="go">Read article {A}</span></a>'
+    f'<a class="article{" has-img" if p["img"] else ""}" href="post/{p["slug"]}">{_img(p)}<span class="cat">{_html.escape(p["cat"])}</span><h3>{_html.escape(p["title"])}</h3><span class="go">Read article {A}</span></a>'
     for p in POSTS
-)
+) or '<p class="lead">New articles are on the way.</p>'
 ideas = f"""
-<!-- INTERIM COPY. Articles migrated from Wix (src/posts.json). -->
+<!-- INTERIM COPY. Articles come from content/posts (edited in Decap CMS at /admin). -->
 <section class="page-hero soft">
   <div class="ring" aria-hidden="true" style="border-color:rgba(225,90,63,.35)"></div>
   <div class="wrap" style="position:relative">
@@ -566,48 +574,34 @@ page("ideas.html", "Ideas",
      ideas)
 
 # ================================================================ BLOG POSTS (same URLs as on Wix: /post/<slug>)
+shutil.rmtree(OUT / "post", ignore_errors=True)   # removes pages for posts deleted in the CMS
 for i, p in enumerate(POSTS):
-    out, in_list = [], False
-    for kind, text in p["blocks"]:
-        t = _html.escape(text)
-        if kind == "li":
-            if not in_list:
-                out.append('<ol class="post-list">'); in_list = True
-            head, _, rest = t.partition("?: ") if "?: " in t else t.partition(": ")
-            head = head + "?" if "?: " in t else head
-            out.append(f"<li><strong>{head}:</strong> {rest}</li>" if rest else f"<li>{t}</li>")
-            continue
-        if in_list:
-            out.append("</ol>"); in_list = False
-        out.append(f"<h2>{t}</h2>" if kind == "h" else f"<p>{t}</p>")
-    if in_list:
-        out.append("</ol>")
     nxt = POSTS[(i + 1) % len(POSTS)]
+    next_html = "" if nxt is p else f"""
+    <div class="post-next">
+      <span class="mini">Read next</span>
+      <a href="post/{nxt["slug"]}"><h3>{_html.escape(nxt["title"])}</h3></a>
+    </div>"""
     body = f"""
 <article>
   <section class="page-hero soft post-hero">
     <div class="wrap narrow">
-      <a class="text-link" href="ideas.html#latest">{A.replace("→","←")} All ideas</a>
-      <p class="post-meta"><span class="tag" style="margin:0">{p["cat"]}</span> <span>{p["date"]} · That Foodie Lawyer</span></p>
+      <a class="text-link" href="ideas.html#latest">← All ideas</a>
+      <p class="post-meta"><span class="tag" style="margin:0">{_html.escape(p["cat"])}</span> <span>{p["date"]} · That Foodie Lawyer</span></p>
       <h1 class="post-title">{_html.escape(p["title"])}</h1>
     </div>
   </section>
   <div class="wrap narrow">
-    <img class="post-cover" src="{p["img"]}" alt="">
-    <div class="post-body">{"".join(out)}</div>
-    <div class="post-next">
-      <span class="mini">Read next</span>
-      <a href="post/{nxt["slug"]}"><h3>{_html.escape(nxt["title"])}</h3></a>
-    </div>
+    {_img(p, ' class="post-cover"')}
+    <div class="post-body">{p["body_html"]}</div>{next_html}
   </div>
 </article>
 {cta("Start a Conversation", "Let us make food", "matter more.",
      "Whether you are building a stronger business, creating a meaningful experience or looking for a fresh industry perspective, I would love to hear what you are working on.",
      btn("contact.html", "Start the Conversation", "sun") + '<a class="btn out" href="book.html">Book a Strategy Call</a>')}
 """
-    desc = p["blocks"][0][1][:155].rsplit(" ", 1)[0] + "..."
-    page(f"post/{p['slug']}.html", p["title"], _html.escape(desc), body, active="ideas.html",
-         og_image=f'{SITE}/{p["img"]}')
+    page(f"post/{p['slug']}.html", p["title"], p["summary"], body, active="ideas.html",
+         og_image=(SITE + p["img"]) if p["img"] else None)
 
 # ================================================================ CONTACT (Netlify Forms)
 contact = f"""
@@ -708,4 +702,7 @@ page("404.html", "Page not found", "Page not found.", f"""
 <p class="lead" style="margin:0 auto">The page you are looking for may have moved.</p><div class="acts">{btn("index.html", "Back to Home")}</div>
 </div></section>""", active="")
 
-print("Built:", sorted(p.name for p in OUT.glob("*.html")))
+pages = ["", "about", "consulting", "experiences", "ideas", "contact", "book"] + ["post/" + p["slug"] for p in POSTS]
+(OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + "".join(f"  <url><loc>{SITE}/{x}</loc></url>\n" for x in pages) + "</urlset>\n", encoding="utf-8")
+print("Built:", sorted(p.name for p in OUT.glob("*.html")), "+", len(POSTS), "posts")
