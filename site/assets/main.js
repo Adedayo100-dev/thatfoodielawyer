@@ -1,6 +1,5 @@
 // That Foodie Lawyer — site behaviour
 (function () {
-  // Sticky header border
   var header = document.querySelector('.site-header');
   var onScroll = function () { header && header.classList.toggle('scrolled', window.scrollY > 8); };
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
@@ -18,21 +17,6 @@
     });
   }
 
-  // "Enter the world" cards (tabs)
-  var cards = document.querySelectorAll('.world-card');
-  cards.forEach(function (card) {
-    card.addEventListener('click', function () {
-      cards.forEach(function (c) {
-        var on = c === card;
-        c.setAttribute('aria-selected', on ? 'true' : 'false');
-        var panel = document.getElementById(c.getAttribute('aria-controls'));
-        if (panel) panel.hidden = !on;
-      });
-      var p = document.getElementById(card.getAttribute('aria-controls'));
-      if (p && window.innerWidth < 980) p.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    });
-  });
-
   // Fade-in on scroll
   var fades = document.querySelectorAll('.fade');
   if ('IntersectionObserver' in window) {
@@ -42,38 +26,27 @@
     fades.forEach(function (el) { io.observe(el); });
   } else { fades.forEach(function (el) { el.classList.add('in'); }); }
 
-  // Contact form: prefill topic from ?topic=
+  // Contact form (Netlify Forms)
   var form = document.getElementById('contact-form');
   if (form) {
     var params = new URLSearchParams(location.search);
-    var topic = params.get('topic');
-    var service = params.get('service');
     var sel = form.querySelector('select[name="topic"]');
-    if (topic && sel) { Array.prototype.forEach.call(sel.options, function (o) { if (o.value === topic) sel.value = topic; }); }
+    var topic = params.get('topic'), service = params.get('service');
+    if (topic && sel) Array.prototype.forEach.call(sel.options, function (o) { if (o.value === topic) sel.value = topic; });
     if (service) {
       var msg = form.querySelector('textarea[name="message"]');
       if (msg && !msg.value) msg.value = 'I would like to ask about: ' + service + '\n\n';
       if (sel) sel.value = 'Advisory';
     }
-
     form.addEventListener('submit', function (ev) {
       ev.preventDefault();
       var status = form.querySelector('.form-status');
       var btn = form.querySelector('button[type="submit"]');
-      status.className = 'form-status'; status.textContent = 'Sending...';
-      btn.disabled = true;
-      var data = Object.fromEntries(new FormData(form).entries());
-      fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-        .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
-        .then(function () {
-          form.reset();
-          status.className = 'form-status ok';
-          status.textContent = 'Thank you. Your message is on its way and I will be in touch soon.';
-        })
-        .catch(function () {
-          status.className = 'form-status err';
-          status.innerHTML = 'Something went wrong. Please email me directly at <a href="mailto:foodie@thatfoodielawyer.com">foodie@thatfoodielawyer.com</a>.';
-        })
+      status.className = 'form-status'; status.textContent = 'Sending...'; btn.disabled = true;
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(form)).toString() })
+        .then(function (r) { if (!r.ok) throw new Error(); })
+        .then(function () { form.reset(); status.className = 'form-status ok'; status.textContent = 'Thank you. Your message is on its way and I will be in touch soon.'; })
+        .catch(function () { status.className = 'form-status err'; status.innerHTML = 'Something went wrong. Please email me directly at <a href="mailto:foodie@thatfoodielawyer.com">foodie@thatfoodielawyer.com</a>.'; })
         .finally(function () { btn.disabled = false; });
     });
   }
@@ -83,7 +56,7 @@
   if (cal) {
     var url = cal.getAttribute('data-url') || '';
     if (url.indexOf('REPLACE_WITH') !== -1) {
-      cal.outerHTML = '<div class="booking-fallback"><h3>Booking calendar coming soon</h3><p>Online booking is being set up. In the meantime, email <a href="mailto:foodie@thatfoodielawyer.com">foodie@thatfoodielawyer.com</a> to arrange your Strategy Call.</p></div>';
+      cal.outerHTML = '<div class="fallback"><h3>Booking calendar coming soon</h3><p>Online booking is being set up. In the meantime, email <a href="mailto:foodie@thatfoodielawyer.com">foodie@thatfoodielawyer.com</a> to arrange your Strategy Call.</p></div>';
     } else {
       var s = document.createElement('script');
       s.src = 'https://assets.calendly.com/assets/external/widget.js'; s.async = true;

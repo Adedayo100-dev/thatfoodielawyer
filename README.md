@@ -1,31 +1,23 @@
 # That Foodie Lawyer website
 
-Static site (HTML/CSS/JS) built from the "TFL Website Copy, Designer-Ready Revision" doc.
-Pages: Home, About, Global Consulting, Experiences, Ideas, Contact, plus Book a Strategy Call and 404.
-
-Design samples for the client: `samples.html` links Sample A (the full site), Sample B (`option-b.html`, editorial) and Sample C (`option-c.html`, bold yellow). B and C are homepage-only until she picks one.
-Original photos stay in `photos/` and are not deployed; web versions are in `site/assets/img/`.
+Static site (HTML/CSS/JS) built from the "TFL Website Copy, Designer-Ready Revision" doc, in the "Signature" design (Sample C) chosen by Azeezat.
+Pages: Home, About, Global Consulting, Experiences, Ideas, Contact, Book a Strategy Call, 404.
 
 ## Structure
-- `src/build.py`: all page content lives here. Edit it, then run `python3 src/build.py` to regenerate `site/*.html`.
-- `site/`: the deployable site (deploy this folder to Vercel as the project root).
-- `site/api/contact.js`: Vercel function that emails contact-form messages via Resend.
-- `site/vercel.json`: clean URLs and redirects from the old Wix paths.
+- `src/build.py`: all page content lives here. Edit it, then run `python src/build.py` to regenerate `site/*.html`.
+- `site/`: the deployable site. On Netlify set **Base directory** to `site` (no build command).
+- `site/netlify.toml`: redirects from old Wix paths and caching.
+- Contact form uses **Netlify Forms** (free tier). Submissions appear in Netlify > Forms; turn on email notifications to foodie@thatfoodielawyer.com.
+- Original photos stay in `photos/` (git-ignored); web versions are in `site/assets/img/`.
 
 ## Before launch
-1. **Calendly + Stripe (booking and payment)**
-   - Calendly plan must be Standard or higher to take payments.
-   - In Calendly: Integrations & apps > Stripe > connect her Stripe account (live mode).
-   - Create the event "Food & Hospitality Strategy Call", 45 min, video location (Zoom/Google Meet).
-   - Event > More options > Payment: turn on "Require payment to book", Stripe, 249, CAD. Add payment/cancellation terms.
-   - Add booking questions (business name, what to focus on).
-   - Paste the event link into `CALENDLY_URL` in `src/build.py` and rebuild. Until then the page shows an "email to book" fallback.
-   - She gets booking notifications by email from Calendly and payouts in Stripe.
-2. **Contact form**: verify thatfoodielawyer.com in Resend, then set `RESEND_API_KEY`, `CONTACT_TO`, `CONTACT_FROM` in Vercel env vars.
-3. **Domain**: add thatfoodielawyer.com + www in Vercel, update DNS where the domain is registered (currently pointing at Wix). Keep her email (MX records) untouched.
-4. **Needs from Azeezat**
-   - Approval of the draft copy on Experiences and Ideas (not in the copy doc).
-   - Blog posts to migrate from Wix; article cards on Ideas link to `#` for now.
-   - Social media links (footer has a slot).
-   - Flodesk: once she decides, paste the embed code where `FLODESK` is marked in `footer()` in build.py.
-5. Strategy Call price ($249 CAD) is marked editable pending final approval.
+1. **Calendly + Stripe**: upgrade her Calendly to Standard, connect Stripe (live mode), use Google Meet as the location. Create one paid event per core offer (Strategy Call $199/45 min, Growth Readiness Audit $650/90 min, Implementation Sprint $1,500, Advisory Partnership $1,997 first month) and paste each link into `src/offers.py`, then rebuild.
+2. **Netlify**: deploy, then Forms > enable form detection, and add a notification email.
+3. **Domain (GoDaddy) and email (Google Workspace)**: Wix shows the domain as "managed by third party, connected by DNS", so DNS is at GoDaddy. At launch, only change the website records (A / CNAME for @ and www) to Netlify's. Never touch the MX or TXT records (her Google email).
+4. Wix: Premium Basic plan, billed monthly, next charge Nov 16, 2026. Cancel only after the new site and email are confirmed working.
+
+## Still needed from Azeezat
+- Blog posts to migrate from Wix (Ideas article cards link to `#` for now).
+- Her own Experiences and Ideas copy (current copy is interim, approved for now).
+- HST, cancellation/refund policy, availability for each bookable offer.
+- A That Foodie Lawyer logo, if separate from the TFL Global Consulting logo.

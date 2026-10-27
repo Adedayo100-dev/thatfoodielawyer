@@ -12,67 +12,69 @@
 <meta property="og:url" content="https://www.thatfoodielawyer.com/contact">
 <meta property="og:image" content="https://www.thatfoodielawyer.com/assets/img/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#1f4a25">
+<meta name="theme-color" content="#fbe9a6">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400;62..125,600;62..125,700;62..125,800;62..125,900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
-<body>
+<body class="hdr-soft">
 
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
-  <div class="wrap header-inner">
-    <a class="logo" href="index.html" aria-label="That Foodie Lawyer home"><img src="assets/img/logo-mark.png" alt="" width="78" height="34"><span class="logo-text">That Foodie<br>Lawyer</span></a>
+  <div class="wrap hd">
+    <a class="brand" href="index.html" aria-label="That Foodie Lawyer home">
+      <img class="dark" src="assets/img/logo-mark-ink.png" alt="That Foodie Lawyer" width="82" height="36">
+      <img class="light" src="assets/img/logo-mark-cream.png" alt="That Foodie Lawyer" width="82" height="36">
+    </a>
     <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
     </button>
     <nav class="nav" id="site-nav" aria-label="Main">
       <ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="consulting.html">Global Consulting</a></li><li><a href="experiences.html">Experiences</a></li><li><a href="ideas.html">Ideas</a></li><li><a href="contact.html" aria-current="page">Contact</a></li></ul>
-      <a class="btn btn-primary" href="book.html">Book a Strategy Call</a>
+      <a class="btn" href="book.html">Book a Strategy Call</a>
     </nav>
   </div>
 </header>
 <main id="main">
 
-<section class="type-hero">
+<section class="page-hero soft">
   <div class="wrap">
-    <span class="eyebrow">Start a Conversation</span>
-    <h1>Tell me what you are working on.</h1>
-    <p class="lead">Whether you are building a stronger business, creating a meaningful experience or looking for a fresh industry perspective, I would love to hear from you. I read every message personally.</p>
+    <span class="tag">Start a Conversation</span>
+    <h1>Tell me what you are <span class="it">working on.</span></h1>
+    <p class="lead">Whether you are building a stronger business, creating a meaningful experience or looking for a fresh industry perspective, I would love to hear from you.</p>
   </div>
 </section>
 
-<section class="section" style="padding-top:0">
-  <div class="wrap booking-grid">
+<section class="section">
+  <div class="wrap two">
     <aside class="fade">
-      <div class="contact-card">
+      <div class="card-dark">
         <h3>Reach me directly</h3>
         <p><a href="mailto:foodie@thatfoodielawyer.com">foodie@thatfoodielawyer.com</a></p>
         <p style="opacity:.8;font-size:.95rem;margin:0">All services and collaborations are currently delivered virtually unless otherwise agreed.</p>
       </div>
-      <div style="margin-top:28px">
+      <div style="margin-top:30px">
         <h3>Ready for advisory support?</h3>
-        <p style="color:var(--ink-soft)">Skip the back and forth. Book and pay for a 45-minute Food &amp; Hospitality Strategy Call online.</p>
-        <a class="btn btn-primary" href="book.html">Book a Strategy Call <span class="arrow" aria-hidden="true">→</span></a>
+        <p style="color:var(--soft)">Skip the back and forth. Book and pay for a 45-minute Food &amp; Hospitality Strategy Call ($199 CAD) online.</p>
+        <a class="btn " href="book.html">Book a Strategy Call →</a>
       </div>
     </aside>
-    <form class="form fade" id="contact-form" action="/api/contact" method="post">
+    <form class="form fade" id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="contact">
+      <p class="hp"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
       <div class="row">
         <div><label for="name">Name</label><input id="name" name="name" required autocomplete="name"></div>
         <div><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email"></div>
       </div>
       <div class="row">
-        <div><label for="org">Business or organization <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></label><input id="org" name="organization" autocomplete="organization"></div>
+        <div><label for="org">Business or organization <span style="font-weight:400;color:var(--soft)">(optional)</span></label><input id="org" name="organization" autocomplete="organization"></div>
         <div><label for="topic">I am interested in</label>
-          <select id="topic" name="topic">
-            <option>Advisory</option><option>Speaking</option><option>Media</option><option>Collaboration</option><option>Experiences</option><option>Something else</option>
-          </select></div>
+          <select id="topic" name="topic"><option>Advisory</option><option>Speaking</option><option>Media</option><option>Collaboration</option><option>Experiences</option><option>Something else</option></select></div>
       </div>
       <div><label for="message">Message</label><textarea id="message" name="message" required></textarea></div>
-      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <div><button class="btn btn-primary" type="submit">Send Message <span class="arrow" aria-hidden="true">→</span></button></div>
+      <div><button class="btn" type="submit">Send Message →</button></div>
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -82,17 +84,15 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <div class="footer-top">
-      <h2>Let's Work<br>Together</h2>
+    <div class="ft">
+      <h2>Let's Work <span class="it">Together</span></h2>
       <p>TFL brings together food, culture, industry insight and practical strategy to move meaningful ideas forward. I work with founders, organizations, media platforms and experience partners who care about trust, quality and lasting impact. Whether you need an advisor, speaker, collaborator or thoughtful industry voice, I would love to hear what you are building. All services and collaborations are currently delivered virtually unless otherwise agreed. Reach me at <a href="mailto:foodie@thatfoodielawyer.com">foodie@thatfoodielawyer.com</a>.</p>
     </div>
-    <div class="footer-bottom">
+    <div class="fb">
       <ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="consulting.html">Global Consulting</a></li><li><a href="experiences.html">Experiences</a></li><li><a href="ideas.html">Ideas</a></li><li><a href="contact.html">Contact</a></li><li><a href="book.html">Book a Strategy Call</a></li></ul>
-      <a href="mailto:foodie@thatfoodielawyer.com">foodie@thatfoodielawyer.com</a>
+      <div class="social"><a href="https://www.instagram.com/thatfoodielawyer/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@thatfoodielawyer</a><a href="https://www.instagram.com/tflglobalconsulting/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@tflglobalconsulting</a></div>
     </div>
-    <!-- FLODESK: paste the Flodesk newsletter embed code here once the form is ready. -->
-    <!-- SOCIAL: add social icon links here once handles are confirmed. -->
-    <div class="footer-meta">
+    <div class="fm">
       <span>© <span id="yr">2026</span> That Foodie Lawyer. All rights reserved.</span>
       <span>Site by <a href="https://deewhynetworks.com" target="_blank" rel="noopener">Dee-Why</a></span>
     </div>

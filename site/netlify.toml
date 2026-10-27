@@ -1,0 +1,33 @@
+# Netlify config: publish this folder as-is (no build step).
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/blank-2"
+  to = "/consulting"
+  status = 301
+[[redirects]]
+  from = "/consult"
+  to = "/consulting"
+  status = 301
+[[redirects]]
+  from = "/blog"
+  to = "/ideas"
+  status = 301
+[[redirects]]
+  from = "/blog/*"
+  to = "/ideas"
+  status = 301
+[[redirects]]
+  from = "/samples"
+  to = "/"
+  status = 301
+[[redirects]]
+  from = "/option-*"
+  to = "/"
+  status = 301
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
