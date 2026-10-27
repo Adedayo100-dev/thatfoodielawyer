@@ -367,3 +367,5 @@ a.tile:hover { transform: translateY(-6px) rotate(-.6deg); }
 .strip-cap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 20px; }
 .strip-cap .it { font-size: 1.4rem; }
 @media (max-width: 700px) { .strip { grid-template-columns: 1fr 1fr; } .strip img:last-child { display: none; } }
+/* sticker sits lower, clear of her face */
+.sticker { top: auto; bottom: 16%; left: 16px; }
