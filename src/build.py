@@ -87,6 +87,10 @@ def footer():
 <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>"""
 
 
+import hashlib
+ASSET_V = hashlib.md5(((OUT / "assets/styles.css").read_bytes() + (OUT / "assets/main.js").read_bytes())).hexdigest()[:8]
+
+
 def page(filename, title, desc, body, active=None, hdr="soft", og_image=None):
     full_title = "That Foodie Lawyer" if filename == "index.html" else f"{title} | That Foodie Lawyer"
     url = SITE + ("/" if filename == "index.html" else "/" + filename.replace(".html", ""))
@@ -110,7 +114,7 @@ def page(filename, title, desc, body, active=None, hdr="soft", og_image=None):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400;62..125,600;62..125,700;62..125,800;62..125,900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css">
+<link rel="stylesheet" href="assets/styles.css?v={ASSET_V}">
 </head>
 <body class="hdr-{hdr}">
 {header(active if active is not None else filename)}
@@ -118,7 +122,7 @@ def page(filename, title, desc, body, active=None, hdr="soft", og_image=None):
 {body}
 </main>
 {footer()}
-<script src="assets/main.js" defer></script>
+<script src="assets/main.js?v={ASSET_V}" defer></script>
 </body>
 </html>
 """

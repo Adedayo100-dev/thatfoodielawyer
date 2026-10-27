@@ -27,8 +27,9 @@
   to = "/"
   status = 301
 
+# Images can be cached for a week; CSS/JS are versioned (?v=) so updates show immediately.
 [[headers]]
-  for = "/assets/*"
+  for = "/assets/img/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
 [[redirects]]
