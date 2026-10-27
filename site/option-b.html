@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>That Foodie Lawyer | Sample B: Editorial</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#faf7f2;--ink:#191512;--soft:#6b625b;--line:rgba(25,21,18,.14);--orange:#e15a3f;--stone:#efe9e1;
+--serif:"Cormorant Garamond",Georgia,serif;--sans:"Manrope","Helvetica Neue",Arial,sans-serif;--wrap:1240px;--g:clamp(20px,5vw,64px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.7 var(--sans);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--g)}
+.label{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
+.label b{color:var(--orange);font-weight:600}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.01em;line-height:1.02;margin:0}
+.link{display:inline-flex;gap:12px;align-items:center;font-weight:600;font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding-bottom:6px;border-bottom:1px solid var(--ink);transition:gap .2s,color .2s,border-color .2s}
+.link:hover{gap:18px;color:var(--orange);border-color:var(--orange)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;padding:16px 26px;transition:background .2s}
+.btn:hover{background:var(--orange)}
+/* header */
+header{border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;justify-content:space-between;height:88px;gap:20px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.brand img{height:30px}
+.brand span{font-family:var(--serif);font-size:1.25rem;letter-spacing:.01em}
+nav ul{display:flex;gap:30px;list-style:none;margin:0;padding:0}
+nav a{text-decoration:none;font-size:.84rem;font-weight:500}
+nav a:hover{color:var(--orange)}
+@media(max-width:1000px){nav ul{display:none}}
+@media(max-width:560px){.hd .btn{display:none}.brand span{font-size:1.05rem}}
+/* hero */
+.hero{padding:clamp(56px,8vw,110px) 0 0}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(32px,6vw,90px);align-items:end}
+.hero h1{font-size:clamp(3.4rem,8.6vw,8rem);line-height:.92;margin-top:26px}
+.hero h1 em{font-style:italic;color:var(--orange)}
+.hero p{color:var(--soft);font-size:1.02rem;margin:0 0 30px}
+.hero-img{margin-top:clamp(48px,7vw,90px);display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;height:clamp(320px,46vw,620px)}
+.hero-img img{width:100%;height:100%;object-fit:cover}
+.hero-img img:first-child{object-position:center 25%}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr}.hero-img{grid-template-columns:1fr 1fr;height:auto}.hero-img img{aspect-ratio:3/4}.hero-img img:first-child{grid-column:1/-1;aspect-ratio:4/4}}
+/* pov */
+.pov{padding:clamp(90px,12vw,170px) 0;text-align:center}
+.pov h2{font-size:clamp(2.6rem,5.4vw,4.6rem);margin:24px auto 30px;max-width:14ch}
+.pov p{max-width:640px;margin:0 auto;color:var(--soft);font-size:1.05rem}
+.rule{width:1px;height:70px;background:var(--orange);margin:0 auto 28px}
+/* world */
+.world{border-top:1px solid var(--line);padding:clamp(80px,10vw,130px) 0}
+.world-head{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-bottom:56px}
+.world-head h2{font-size:clamp(2.4rem,4.6vw,3.8rem);max-width:12ch;margin-top:20px}
+.world-head p{max-width:420px;color:var(--soft);margin:0}
+.row{display:grid;grid-template-columns:80px 1.1fr 1.4fr 200px;gap:24px;align-items:center;padding:34px 0;border-top:1px solid var(--line);text-decoration:none;transition:background .3s,padding .3s}
+.row:last-child{border-bottom:1px solid var(--line)}
+.row:hover{background:var(--stone);padding-left:20px;padding-right:20px}
+.row .n{font-family:var(--serif);font-size:1.4rem;color:var(--orange)}
+.row h3{font-size:clamp(2rem,3.4vw,2.9rem)}
+.row .sub{display:block;font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--soft);margin-top:8px}
+.row p{margin:0;color:var(--soft);font-size:.96rem}
+.row .go{justify-self:end;font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.row:hover .go{color:var(--orange)}
+@media(max-width:860px){.row{grid-template-columns:50px 1fr;gap:10px 16px}.row p,.row .go{grid-column:2}.row .go{justify-self:start}}
+/* lens */
+.lens{background:var(--ink);color:var(--paper);padding:clamp(80px,10vw,140px) 0}
+.lens-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,7vw,110px);align-items:center}
+.lens img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.lens .label{color:rgba(250,247,242,.6)}
+.lens h2{font-size:clamp(2.6rem,5vw,4.2rem);margin:22px 0 28px}
+.lens p{color:rgba(250,247,242,.72);margin:0 0 36px;font-size:1.04rem}
+.lens .link{border-color:var(--paper)}
+@media(max-width:860px){.lens-grid{grid-template-columns:1fr}}
+/* food strip */
+.strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:12px 0 0}
+.strip img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.strip-cap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:22px 0 0;color:var(--soft);font-size:.9rem}
+@media(max-width:700px){.strip{grid-template-columns:1fr 1fr}.strip img:last-child{display:none}}
+/* cta */
+.cta{padding:clamp(100px,13vw,180px) 0;text-align:center}
+.cta h2{font-size:clamp(2.8rem,6vw,5.2rem);margin:24px auto 26px;max-width:13ch}
+.cta h2 em{color:var(--orange)}
+.cta p{color:var(--soft);max-width:560px;margin:0 auto 38px}
+.cta .acts{display:flex;gap:28px;justify-content:center;align-items:center;flex-wrap:wrap}
+/* footer */
+footer{border-top:1px solid var(--line);padding:70px 0 34px}
+.ft{display:grid;grid-template-columns:1fr 1.3fr;gap:50px}
+.ft h3{font-size:clamp(2.2rem,4vw,3.4rem)}
+.ft p{color:var(--soft);margin:0;font-size:.95rem}
+.fb{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-size:.82rem;color:var(--soft)}
+@media(max-width:800px){.ft{grid-template-columns:1fr}}
+.sample{position:fixed;left:16px;bottom:16px;z-index:9;background:var(--ink);color:var(--paper);font-size:.75rem;font-weight:600;letter-spacing:.08em;padding:9px 14px;text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap hd">
+    <a class="brand" href="#"><img src="assets/img/logo-mark.png" alt=""><span>That Foodie Lawyer</span></a>
+    <nav><ul><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Global Consulting</a></li><li><a href="#">Experiences</a></li><li><a href="#">Ideas</a></li><li><a href="#">Contact</a></li></ul></nav>
+    <a class="btn" href="#">Book a Strategy Call</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="label"><b>|</b>&nbsp; About That Foodie Lawyer</span>
+        <h1>Food is never just what is on the <em>plate.</em></h1>
+      </div>
+      <div>
+        <p>That Foodie Lawyer is a platform for looking deeper at food: the expectations it creates, the experiences it shapes, the trust it requires and the businesses behind it. Through consumer insight, curated experiences, industry conversations and strategic advisory, I am shaping a future where people experience food more fully, beyond what is on the plate, and the industry is equipped to deliver better.</p>
+        <a class="link" href="#world">Enter the World of TFL <span>→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="hero-img">
+      <img src="assets/img/azeezat-hero.webp" alt="Azeezat Adejare in a yellow blazer and tie">
+      <img src="assets/img/food-pastries.webp" alt="Golden pastries and fruit at a TFL event">
+      <img src="assets/img/azeezat-lens.webp" alt="Azeezat in a denim vest, arms crossed">
+    </div>
+  </div>
+</section>
+
+<section class="pov">
+  <div class="wrap">
+    <div class="rule"></div>
+    <span class="label">The TFL Point of View</span>
+    <h2>There is a whole world behind food.</h2>
+    <p>Food is personal, commercial and deeply connected to how people live. Behind every plate, product and hospitality moment are choices about quality, trust, service, systems and experience. TFL brings that whole picture into view so consumers can expect better, founders can build better and the industry can move forward with greater intention.</p>
+  </div>
+</section>
+
+<section class="world" id="world">
+  <div class="wrap">
+    <div class="world-head">
+      <div><span class="label">Enter the World of TFL</span><h2>Discover TFL from every angle.</h2></div>
+      <p>Explore the ideas, experiences, conversations and strategic work shaping a more thoughtful future for food and hospitality.</p>
+    </div>
+    <a class="row" href="#"><span class="n">01</span><h3>Advise<span class="sub">TFL Global Consulting</span></h3><p>Build a stronger food or hospitality business with clearer decisions, smarter systems and practical support.</p><span class="go">Explore Consulting →</span></a>
+    <a class="row" href="#"><span class="n">02</span><h3>Experience<span class="sub">Experiences by TFL</span></h3><p>Step into thoughtfully curated experiences designed to feel intentional, engaging and worth remembering.</p><span class="go">Discover Experiences →</span></a>
+    <a class="row" href="#"><span class="n">03</span><h3>Explore<span class="sub">Ideas &amp; Industry Voice</span></h3><p>Look deeper at the culture, systems, standards and stories shaping how food is experienced.</p><span class="go">Explore Ideas →</span></a>
+    <a class="row" href="#"><span class="n">04</span><h3>Connect<span class="sub">Speaking, Media &amp; Collaborations</span></h3><p>Bring the TFL perspective to your platform, audience, event or creative project.</p><span class="go">Work With Me →</span></a>
+  </div>
+</section>
+
+<section class="lens">
+  <div class="wrap lens-grid">
+    <img src="assets/img/azeezat-green.webp" alt="Azeezat in a green shirt and head wrap, sipping a drink">
+    <div>
+      <span class="label">Ideas &amp; Industry Voice</span>
+      <h2>A wider lens on where food is going.</h2>
+      <p>The future of food will not be shaped by taste alone. It will be shaped by trust, culture, regulation, technology, customer expectations and the people willing to connect the dots. I bring legal thinking, industry insight and a consumer-minded perspective to the conversations defining what comes next.</p>
+      <a class="link" href="#">Explore the TFL Point of View <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="strip">
+      <img src="assets/img/food-table.webp" alt="A TFL event table under copper food lamps">
+      <img src="assets/img/azeezat-bite.webp" alt="Azeezat at a restaurant table holding a falafel">
+      <img src="assets/img/food-pastries.webp" alt="Platters of pastries and fresh fruit">
+    </div>
+    <div class="strip-cap"><span>Experiences by TFL</span><a class="link" href="#">Discover Experiences <span>→</span></a></div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <span class="label">Start a Conversation</span>
+    <h2>Let us make food matter <em>more.</em></h2>
+    <p>Whether you are building a stronger business, creating a meaningful experience or looking for a fresh industry perspective, I would love to hear what you are working on.</p>
+    <div class="acts"><a class="btn" href="#">Start the Conversation →</a><a class="link" href="#">Book a Strategy Call</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="ft">
+      <h3>Let's Work Together</h3>
+      <p>TFL brings together food, culture, industry insight and practical strategy to move meaningful ideas forward. I work with founders, organizations, media platforms and experience partners who care about trust, quality and lasting impact. All services and collaborations are currently delivered virtually unless otherwise agreed. Reach me at <a href="mailto:foodie@thatfoodielawyer.com">foodie@thatfoodielawyer.com</a>.</p>
+    </div>
+    <div class="fb"><span>© 2026 That Foodie Lawyer</span><span>Site by Dee-Why</span></div>
+  </div>
+</footer>
+<a class="sample" href="samples.html">Sample B · Editorial ↩</a>
+</body>
+</html>
