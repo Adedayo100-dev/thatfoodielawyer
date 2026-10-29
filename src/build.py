@@ -24,7 +24,7 @@ INSTAGRAM = [
 NAV = [
     ("index.html", "Home"),
     ("about.html", "About"),
-    ("consulting.html", "Global Consulting"),
+    ("consulting.html", "TFL Global Consulting"),
     ("experiences.html", "Experiences"),
     ("ideas.html", "Ideas"),
     ("contact.html", "Contact"),
@@ -497,7 +497,7 @@ consulting = f"""
      "Book a Strategy Call. In 45 minutes we will clarify your priorities and identify the most useful next step for your business.",
      btn("book.html", "Book a Food &amp; Hospitality Strategy Call", "sun"))}
 """
-page("consulting.html", "Global Consulting",
+page("consulting.html", "TFL Global Consulting",
      "TFL Global Consulting helps food and hospitality businesses build growth-ready operations: strategy calls, growth audits, implementation sprints, advisory partnerships and Canadian food compliance services.",
      consulting, hdr="forest")
 
