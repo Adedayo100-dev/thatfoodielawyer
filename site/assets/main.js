@@ -69,3 +69,21 @@
     }
   }
 })();
+
+// Newsletter signup (Kit): submit in place, fall back to a normal form post if anything fails
+document.querySelectorAll('form[data-kit]').forEach(function (form) {
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var status = form.querySelector('.nl-status');
+    var btn = form.querySelector('button');
+    btn.disabled = true; status.className = 'nl-status'; status.textContent = 'Subscribing...';
+    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+      .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+      .then(function () {
+        form.reset(); status.className = 'nl-status ok';
+        status.textContent = 'Thank you! Check your inbox to confirm your subscription.';
+      })
+      .catch(function () { form.removeAttribute('data-kit'); form.submit(); })
+      .finally(function () { btn.disabled = false; });
+  });
+});

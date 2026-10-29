@@ -12,6 +12,10 @@ EMAIL = "foodie@thatfoodielawyer.com"
 # Paste her Calendly event link here (event must have Stripe payment turned on).
 # Calendly links for each paid offer live in src/offers.py
 
+# Newsletter (Kit, free plan): paste the numeric form ID from Kit > Grow > Landing Pages & Forms > (form) > Embed.
+# Leave empty to hide all newsletter signup boxes.
+KIT_FORM_ID = ""
+
 INSTAGRAM = [
     ("@thatfoodielawyer", "https://www.instagram.com/thatfoodielawyer/"),
     ("@tflglobalconsulting", "https://www.instagram.com/tflglobalconsulting/"),
@@ -64,6 +68,37 @@ def header(active):
 </header>"""
 
 
+def newsletter(variant="band"):
+    """Email signup that posts to Kit. Hidden until KIT_FORM_ID is set."""
+    if not KIT_FORM_ID:
+        return ""
+    form = f"""
+      <form class="nl-form" action="https://app.kit.com/forms/{KIT_FORM_ID}/subscriptions" method="post" data-kit>
+        <label class="sr" for="nl-{variant}-name">First name</label>
+        <input id="nl-{variant}-name" name="fields[first_name]" placeholder="First name" autocomplete="given-name">
+        <label class="sr" for="nl-{variant}-email">Email</label>
+        <input id="nl-{variant}-email" name="email_address" type="email" placeholder="Email address" required autocomplete="email">
+        <button class="btn sun" type="submit">Subscribe {A}</button>
+        <p class="nl-note">By subscribing, you agree to receive emails from That Foodie Lawyer. Unsubscribe anytime.</p>
+        <p class="nl-status" role="status" aria-live="polite"></p>
+      </form>"""
+    if variant == "footer":
+        return f"""
+    <div class="nl-foot">
+      <div><h3>Ideas in your inbox</h3><p>New articles and perspectives on food, law, culture and business.</p></div>{form}
+    </div>"""
+    return f"""
+<section class="section newsletter on-dark">
+  <div class="wrap nl-grid fade">
+    <div>
+      <span class="tag">The TFL Newsletter</span>
+      <h2>Get new ideas <span class="it">in your inbox.</span></h2>
+      <p>Be the first to read new articles, commentary and stories on food, law, culture and business. No spam, just thoughtful perspectives when there is something worth sharing.</p>
+    </div>{form}
+  </div>
+</section>"""
+
+
 def footer():
     links = "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in NAV)
     social = "".join(f'<a href="{u}" target="_blank" rel="noopener">{IG}{n}</a>' for n, u in INSTAGRAM)
@@ -74,6 +109,7 @@ def footer():
       <h2>Let's Work <span class="it">Together</span></h2>
       <p>TFL brings together food, culture, industry insight and practical strategy to move meaningful ideas forward. I work with founders, organizations, media platforms and experience partners who care about trust, quality and lasting impact. Whether you need an advisor, speaker, collaborator or thoughtful industry voice, I would love to hear what you are building. All services and collaborations are currently delivered virtually unless otherwise agreed. Reach me at <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>
     </div>
+    {newsletter("footer")}
     <div class="fb">
       <ul>{links}<li><a href="book.html">Book a Strategy Call</a></li></ul>
       <div class="social">{social}</div>
@@ -115,6 +151,7 @@ def page(filename, title, desc, body, active=None, hdr="soft", og_image=None):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400;62..125,600;62..125,700;62..125,800;62..125,900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css?v={ASSET_V}">
+<link rel="alternate" type="application/rss+xml" title="That Foodie Lawyer: Ideas" href="/feed.xml">
 </head>
 <body class="hdr-{hdr}">
 {header(active if active is not None else filename)}
@@ -551,6 +588,7 @@ ideas = f"""
     <div class="articles fade">{arts}</div>
   </div>
 </section>
+{newsletter()}
 
 <section class="section bg-soft">
   <div class="wrap split">
@@ -596,6 +634,7 @@ for i, p in enumerate(POSTS):
     <div class="post-body">{p["body_html"]}</div>{next_html}
   </div>
 </article>
+{newsletter()}
 {cta("Start a Conversation", "Let us make food", "matter more.",
      "Whether you are building a stronger business, creating a meaningful experience or looking for a fresh industry perspective, I would love to hear what you are working on.",
      btn("contact.html", "Start the Conversation", "sun") + '<a class="btn out" href="book.html">Book a Strategy Call</a>')}
@@ -705,4 +744,34 @@ page("404.html", "Page not found", "Page not found.", f"""
 pages = ["", "about", "consulting", "experiences", "ideas", "contact", "book"] + ["post/" + p["slug"] for p in POSTS]
 (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     + "".join(f"  <url><loc>{SITE}/{x}</loc></url>\n" for x in pages) + "</urlset>\n", encoding="utf-8")
+# ================================================================ RSS FEED (for newsletter tools: /feed.xml)
+from email.utils import format_datetime
+from datetime import datetime, timezone
+items = ""
+for p in POSTS[:20]:
+    d = datetime(p["date_obj"].year, p["date_obj"].month, p["date_obj"].day, 12, tzinfo=timezone.utc)
+    link = f"{SITE}/post/{p['slug']}"
+    img = f'<img src="{SITE}{p["img"]}" alt=""/>' if p["img"] else ""
+    items += f"""
+  <item>
+    <title>{_html.escape(p["title"])}</title>
+    <link>{link}</link>
+    <guid isPermaLink="true">{link}</guid>
+    <pubDate>{format_datetime(d)}</pubDate>
+    <category>{_html.escape(p["cat"])}</category>
+    <description>{_html.escape(p["summary"])}</description>
+    <content:encoded><![CDATA[{img}{p["body_html"]}]]></content:encoded>
+  </item>"""
+(OUT / "feed.xml").write_text(f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>That Foodie Lawyer: Ideas</title>
+  <link>{SITE}/ideas</link>
+  <atom:link href="{SITE}/feed.xml" rel="self" type="application/rss+xml"/>
+  <description>Commentary and stories on food, law, culture and business from That Foodie Lawyer.</description>
+  <language>en-ca</language>{items}
+</channel>
+</rss>
+""", encoding="utf-8")
+
 print("Built:", sorted(p.name for p in OUT.glob("*.html")), "+", len(POSTS), "posts")

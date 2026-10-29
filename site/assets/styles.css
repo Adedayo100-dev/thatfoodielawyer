@@ -391,3 +391,22 @@ a.tile:hover { transform: translateY(-6px) rotate(-.6deg); }
 .post-next a { text-decoration: none; }
 .post-next h3 { margin: 10px 0 0; font-size: clamp(1.4rem, 2.4vw, 2rem); }
 .post-next a:hover h3 { color: var(--orange); }
+
+/* ---- Newsletter ---- */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.newsletter { background: var(--forest); color: var(--cream); }
+.newsletter p { color: rgba(255,250,240,.8); }
+.nl-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(28px, 5vw, 70px); align-items: center; }
+.nl-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.nl-form input { font: inherit; padding: 15px 18px; border-radius: 999px; border: 2px solid transparent; background: var(--cream); color: var(--ink); min-width: 0; }
+.nl-form input:focus { outline: none; border-color: var(--sun); }
+.nl-form .btn { grid-column: 1 / -1; justify-content: center; }
+.nl-note { grid-column: 1 / -1; font-size: .8rem; margin: 2px 0 0; opacity: .75; }
+.nl-status { grid-column: 1 / -1; margin: 0; font-weight: 700; min-height: 1.2em; }
+.nl-status.ok { color: var(--sun); }
+.nl-foot { display: grid; grid-template-columns: .9fr 1.1fr; gap: 30px; align-items: center; padding: 34px 0; border-bottom: 1px solid rgba(255,250,240,.2); }
+.nl-foot h3 { font-size: 1.4rem; margin: 0 0 6px; }
+.nl-foot p { margin: 0; color: rgba(255,250,240,.75); font-size: .95rem; }
+.nl-foot .nl-form { grid-template-columns: 1fr 1fr auto; }
+.nl-foot .nl-form .btn { grid-column: auto; }
+@media (max-width: 860px) { .nl-grid, .nl-foot { grid-template-columns: 1fr; } .nl-foot .nl-form { grid-template-columns: 1fr; } .nl-form { grid-template-columns: 1fr; } }

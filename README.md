@@ -19,6 +19,10 @@ Pages: Home, About, Global Consulting, Experiences, Ideas, Contact, Book a Strat
 - She logs in at `/admin`, writes a post, clicks Publish. Netlify rebuilds and the post is live in about a minute.
 - Cover photos of any size are resized to web versions automatically during the build.
 
+## Newsletter (Kit, free plan)
+- Signup boxes appear on the Ideas page, every blog post and the footer once `KIT_FORM_ID` is set in `src/build.py` (hidden while empty).
+- New posts are emailed manually: in Kit, create a Broadcast with the post title, 1-2 lines and a link. RSS feed for automation later: `/feed.xml`.
+
 ## Before launch
 1. **Calendly + Stripe**: upgrade her Calendly from Basic to Standard (needed to take payments), connect Stripe (live mode, confirm her bank is linked). Create ONE paid event: "Food & Hospitality Strategy Call", 45 min, $249 CAD (she is not HST-registered, so no tax), location Google Meet.
    - Policy text: "Payments are non-refundable. You can reschedule up to 48 hours before your call."
@@ -39,7 +43,7 @@ Pages: Home, About, Global Consulting, Experiences, Ideas, Contact, Book a Strat
    | TXT | @ | google-site-verification=gSGJk3V7FJ8P3qxJ9WMdOPKfxlr9NiAuyKAvPqLt_jY | Google ownership |
    | TXT | _dmarc | v=DMARC1; p=none | email policy |
    | A | @ | 185.230.63.x (Wix) | REPLACE with 75.2.60.5 (Netlify), DNS only |
-   | CNAME | www | cdn3.wixdns.net (Wix) | REPLACE with thefoodielawyer.netlify.app, DNS only |
+   | CNAME | www | cdn3.wixdns.net (Wix) | REPLACE with thatfoodielawyer.netlify.app, DNS only |
    No DKIM record (google._domainkey) exists yet; worth adding later from Google Admin for better email delivery.
 4. Wix: Premium Basic plan, billed monthly, next charge Nov 16, 2026. Cancel only after the new site and email are confirmed working.
 
