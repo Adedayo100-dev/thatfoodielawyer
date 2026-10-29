@@ -26,7 +26,21 @@ Pages: Home, About, Global Consulting, Experiences, Ideas, Contact, Book a Strat
    - Paste the event link into `calendly` for the Strategy Call in `src/offers.py`, then rebuild.
    - Other offers are recommended after the call, so they have no price or booking. Partnership months 2 and 3 are billed by her through Stripe.
 2. **Netlify**: Forms detection on, email notification to foodie@thatfoodielawyer.com (done).
-3. **Domain (GoDaddy) and email (Google Workspace)**: Wix shows the domain as "managed by third party, connected by DNS", so DNS is at GoDaddy (Dayo has delegate access). At launch, only change the website records (A / CNAME for @ and www) to Netlify's. Never touch the MX or TXT records (her Google email).
+3. **Domain and DNS**: the domain is *registered* at GoDaddy (Dayo has delegate access), but its *nameservers point to Wix* (ns0/ns1.wixdns.net), so all DNS records, including her Google Workspace email, currently live in **Wix DNS**. Plan: move DNS to Cloudflare first (copy every record below), then transfer the registration from GoDaddy to Cloudflare, then cancel Wix.
+   Current records (read Oct 27, 2026). Keep the email ones exactly:
+   | Type | Name | Value | Notes |
+   |---|---|---|---|
+   | MX | @ | aspmx.l.google.com (priority 10) | Google email |
+   | MX | @ | alt1.aspmx.l.google.com (20) | Google email |
+   | MX | @ | alt2.aspmx.l.google.com (30) | Google email |
+   | MX | @ | alt3.aspmx.l.google.com (40) | Google email |
+   | MX | @ | alt4.aspmx.l.google.com (50) | Google email |
+   | TXT | @ | v=spf1 include:_spf.google.com -all | email sender check |
+   | TXT | @ | google-site-verification=gSGJk3V7FJ8P3qxJ9WMdOPKfxlr9NiAuyKAvPqLt_jY | Google ownership |
+   | TXT | _dmarc | v=DMARC1; p=none | email policy |
+   | A | @ | 185.230.63.x (Wix) | REPLACE with 75.2.60.5 (Netlify), DNS only |
+   | CNAME | www | cdn3.wixdns.net (Wix) | REPLACE with thefoodielawyer.netlify.app, DNS only |
+   No DKIM record (google._domainkey) exists yet; worth adding later from Google Admin for better email delivery.
 4. Wix: Premium Basic plan, billed monthly, next charge Nov 16, 2026. Cancel only after the new site and email are confirmed working.
 
 ## Still needed from Azeezat
