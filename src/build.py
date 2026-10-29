@@ -14,7 +14,7 @@ EMAIL = "foodie@thatfoodielawyer.com"
 
 # Newsletter (Kit, free plan): paste the numeric form ID from Kit > Grow > Landing Pages & Forms > (form) > Embed.
 # Leave empty to hide all newsletter signup boxes.
-KIT_FORM_ID = ""
+KIT_FORM_ID = "10112475"
 
 INSTAGRAM = [
     ("@thatfoodielawyer", "https://www.instagram.com/thatfoodielawyer/"),
